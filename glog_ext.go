@@ -90,6 +90,10 @@ func (l *loggingT) SetLogDir(dir string) {
 	logDir = dir
 }
 
+func (l *loggingT) SetAppName(name string) {
+	program = name
+}
+
 type LoggingT = loggingT
 
 func GetLogger() *LoggingT {
