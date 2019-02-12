@@ -1,6 +1,9 @@
 package glog
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func (l *loggingT) Init() bool {
 	return true
@@ -92,6 +95,10 @@ func (l *loggingT) SetLogDir(dir string) {
 
 func (l *loggingT) SetAppName(name string) {
 	program = name
+}
+
+func (l *loggingT) SetFlushInterval(interval time.Duration) {
+	flushInterval = interval
 }
 
 type LoggingT = loggingT
