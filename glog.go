@@ -872,10 +872,11 @@ func (l *loggingT) createFiles(sev severity) error {
 }
 
 var flushInterval = 30 * time.Second
+var flushTicker = time.NewTicker(flushInterval)
 
 // flushDaemon periodically flushes the log file buffers.
 func (l *loggingT) flushDaemon() {
-	for _ = range time.NewTicker(flushInterval).C {
+	for _ = range flushTicker.C {
 		l.lockAndFlushAll()
 	}
 }
