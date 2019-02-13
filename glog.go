@@ -537,10 +537,10 @@ func (l *loggingT) header(s severity, depth int) (*buffer, string, int) {
 		file = "???"
 		line = 1
 	} else {
-		slash := strings.LastIndex(file, "/")
-		if slash >= 0 {
-			file = file[slash+1:]
-		}
+		//slash := strings.LastIndex(file, "/")
+		//if slash >= 0 {
+		//	file = file[slash+1:]
+		//}
 	}
 	return l.formatHeader(s, file, line), file, line
 }
