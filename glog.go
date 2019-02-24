@@ -406,7 +406,7 @@ func init() {
 	logging.stderrThreshold = errorLog
 
 	logging.setVState(0, nil, false)
-	go logging.flushDaemon()
+	go logging.flushDaemon(30 * time.Second)
 }
 
 // Flush flushes all pending log I/O.
@@ -871,16 +871,23 @@ func (l *loggingT) createFiles(sev severity) error {
 	return nil
 }
 
-var flushInterval = 30 * time.Second
-var flushTicker = time.NewTicker(flushInterval)
+var flushTickerCloseChan = make(chan int)
 
 // flushDaemon periodically flushes the log file buffers.
-func (l *loggingT) flushDaemon() {
+func (l *loggingT) flushDaemon(flushInterval time.Duration) {
 	fmt.Println("start flushDaemon")
-	t := flushTicker
-	for _ = range t.C {
-		l.lockAndFlushAll()
+	var flushTicker = time.NewTicker(flushInterval)
+	for {
+		select {
+		case <-flushTicker.C:
+			l.lockAndFlushAll()
+		case <-flushTickerCloseChan:
+			l.lockAndFlushAll()
+			flushTicker.Stop()
+			goto EXIT
+		}
 	}
+EXIT:
 	fmt.Println("exit flushDaemon")
 }
 
