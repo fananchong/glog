@@ -99,6 +99,7 @@ func (l *loggingT) SetAppName(name string) {
 
 func (l *loggingT) SetFlushInterval(interval time.Duration) {
 	flushTicker.Stop()
+	<-flushTickerCloseChan
 	flushInterval = interval
 	flushTicker = time.NewTicker(flushInterval)
 	go l.flushDaemon()
