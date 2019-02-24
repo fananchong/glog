@@ -873,14 +873,15 @@ func (l *loggingT) createFiles(sev severity) error {
 
 var flushInterval = 30 * time.Second
 var flushTicker = time.NewTicker(flushInterval)
-var flushTickerCloseChan = make(chan int)
 
 // flushDaemon periodically flushes the log file buffers.
 func (l *loggingT) flushDaemon() {
-	for _ = range flushTicker.C {
+	fmt.Println("start flushDaemon")
+	t := flushTicker
+	for _ = range t.C {
 		l.lockAndFlushAll()
 	}
-	flushTickerCloseChan <- 1
+	fmt.Println("exit flushDaemon")
 }
 
 // lockAndFlushAll is like flushAll but locks l.mu first.
