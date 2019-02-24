@@ -875,7 +875,7 @@ var flushTickerCloseChan = make(chan int)
 
 // flushDaemon periodically flushes the log file buffers.
 func (l *loggingT) flushDaemon(flushInterval time.Duration) {
-	fmt.Println("start flushDaemon")
+	//fmt.Println("start flushDaemon")
 	var flushTicker = time.NewTicker(flushInterval)
 	for {
 		select {
@@ -888,7 +888,7 @@ func (l *loggingT) flushDaemon(flushInterval time.Duration) {
 		}
 	}
 EXIT:
-	fmt.Println("exit flushDaemon")
+	//fmt.Println("exit flushDaemon")
 }
 
 // lockAndFlushAll is like flushAll but locks l.mu first.
